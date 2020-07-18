@@ -15,7 +15,7 @@ set (SOURCES
 )
 
 if (UNIX AND NOT APPLE)
-	find_package (X11 REQUIRED COMPONENTS X11 Xutil Xscreensaver)
+	find_package (X11 REQUIRED COMPONENTS Xutil Xscreensaver)
 	if (X11_Xscreensaver_FOUND)
 		message (STATUS "Found required X11 libraries: ${X11_X11_LIB};${X11_Xscreensaver_LIB}")
 	else ()

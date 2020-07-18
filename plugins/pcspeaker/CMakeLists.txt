@@ -15,7 +15,7 @@ set (SOURCES
 set (LIBRARIES "")
 
 if (UNIX AND NOT APPLE)
-	find_package (X11 REQUIRED COMPONENTS X11)
+	find_package (X11 REQUIRED)
 	if (NOT X11_FOUND)
 		message (SEND_ERROR "Could NOT find X11")
 	endif ()
