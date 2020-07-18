@@ -65,4 +65,4 @@ QString DomProcessorServiceImpl::process(const QString &xml)
 	}
 }
 
-#include "dom-processor-service-impl.moc"
+#include "moc_dom-processor-service-impl.cpp"

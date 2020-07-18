@@ -78,4 +78,4 @@ void DomVisitorProviderRepository::removeVisitorProvider(DomVisitorProvider *vis
 		m_visitorProviders.erase(it);
 }
 
-#include "dom-visitor-provider-repository.moc"
+#include "moc_dom-visitor-provider-repository.cpp"

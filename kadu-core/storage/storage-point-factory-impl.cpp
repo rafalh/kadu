@@ -53,4 +53,4 @@ std::unique_ptr<StoragePoint> StoragePointFactoryImpl::createStoragePoint(const 
 	return std::make_unique<StoragePoint>(m_configurationFile, node);
 }
 
-#include "storage-point-factory-impl.moc"
+#include "moc_storage-point-factory-impl.cpp"

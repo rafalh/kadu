@@ -152,4 +152,4 @@ bool MessageManagerImpl::sendRawMessage(const Chat &chat, const QByteArray &cont
 	return protocol->chatService()->sendRawMessage(chat, content);
 }
 
-#include "message-manager-impl.moc"
+#include "moc_message-manager-impl.cpp"

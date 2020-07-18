@@ -61,4 +61,4 @@ void OpenChatService::chatWidgetRemoved(ChatWidget *chatWidget)
 	m_openChatRepository->removeOpenChat(chatWidget->chat());
 }
 
-#include "open-chat-service.moc"
+#include "moc_open-chat-service.cpp"

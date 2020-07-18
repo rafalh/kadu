@@ -57,4 +57,4 @@ size_t RecentChatRepository::size() const
 	return m_chats.size();
 }
 
-#include "recent-chat-repository.moc"
+#include "moc_recent-chat-repository.cpp"

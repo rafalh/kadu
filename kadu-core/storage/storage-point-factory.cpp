@@ -28,4 +28,4 @@ StoragePointFactory::~StoragePointFactory()
 {
 }
 
-#include "storage-point-factory.moc"
+#include "moc_storage-point-factory.cpp"

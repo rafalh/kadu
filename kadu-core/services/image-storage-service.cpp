@@ -29,4 +29,4 @@ ImageStorageService::~ImageStorageService()
 {
 }
 
-#include "image-storage-service.moc"
+//#include "moc_image-storage-service.cpp"

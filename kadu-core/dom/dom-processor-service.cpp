@@ -29,4 +29,4 @@ DomProcessorService::~DomProcessorService()
 {
 }
 
-#include "dom-processor-service.moc"
+#include "moc_dom-processor-service.cpp"

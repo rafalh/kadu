@@ -86,4 +86,4 @@ void WindowsJumpListService::updateJumpList()
 	m_jumpList->setVisible(any);
 }
 
-#include "windows-jump-list-service.moc"
+#include "moc_windows-jump-list-service.cpp"

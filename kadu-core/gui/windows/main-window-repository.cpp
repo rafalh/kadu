@@ -58,4 +58,4 @@ MainWindowRepository::Iterator MainWindowRepository::end()
 	return std::end(m_data);
 }
 
-#include "main-window-repository.moc"
+#include "moc_main-window-repository.cpp"
