@@ -124,6 +124,8 @@ void DockingMenuHandler::init()
 
 	m_closeKaduAction = new QAction{m_iconsManager->iconByPath(KaduIcon{"application-exit"}), tr("&Exit Kadu"), this};
 	connect(m_closeKaduAction, SIGNAL(triggered()), qApp, SLOT(quit()));
+
+	doUpdate();
 }
 
 void DockingMenuHandler::statusContainerRegistered(StatusContainer *statusContainer)
