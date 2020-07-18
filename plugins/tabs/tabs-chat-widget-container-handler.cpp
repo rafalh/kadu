@@ -49,11 +49,15 @@ void TabsChatWidgetContainerHandler::init()
 			this, SIGNAL(chatAcceptanceChanged(Chat)));
 	connect(m_tabsManager.data(), SIGNAL(chatWidgetActivated(ChatWidget*)),
 			this, SIGNAL(chatWidgetActivated(ChatWidget*)));
+	// Note: m_tabsManager may not be fully inited here so delay getting tab widget from it to the next main loop iteration
+	QTimer::singleShot(0, this, &TabsChatWidgetContainerHandler::lateInit);
+	m_chatWidgetContainerHandlerRepository->registerChatWidgetContainerHandler(this);
+}
 
+void TabsChatWidgetContainerHandler::lateInit()
+{
 	connect(m_tabsManager->tabWidget(), SIGNAL(chatWidgetActivated(ChatWidget*)),
 			this, SIGNAL(chatWidgetActivated(ChatWidget*)));
-
-	m_chatWidgetContainerHandlerRepository->registerChatWidgetContainerHandler(this);
 }
 
 void TabsChatWidgetContainerHandler::done()

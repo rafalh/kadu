@@ -52,6 +52,8 @@ private:
 	QPointer<ChatWidgetContainerHandlerRepository> m_chatWidgetContainerHandlerRepository;
 	QPointer<TabsManager> m_tabsManager;
 
+	void lateInit();
+
 private slots:
 	INJEQT_SET void setChatWidgetContainerHandlerRepository(ChatWidgetContainerHandlerRepository *chatWidgetContainerHandlerRepository);
 	INJEQT_SET void setTabsManager(TabsManager *tabsManager);
