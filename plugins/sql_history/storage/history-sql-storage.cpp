@@ -205,6 +205,7 @@ void HistorySqlStorage::done()
 {
 	if (Database.isOpen())
 		Database.close();
+	Database = QSqlDatabase();
 
 	QSqlDatabase::removeDatabase("kadu-history");
 }
