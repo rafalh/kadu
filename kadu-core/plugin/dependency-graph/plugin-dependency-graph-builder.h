@@ -22,6 +22,7 @@
 #include <QtCore/QObject>
 #include <map>
 #include <set>
+#include <functional>
 
 #include "plugin/dependency-graph/plugin-dependency-graph.h"
 #include "exports.h"
