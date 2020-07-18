@@ -281,12 +281,12 @@ void GaduProtocolSocketNotifiers::socketEvent()
 
 		case GG_EVENT_PUBDIR50_SEARCH_REPLY:
 			m_protocol->CurrentSearchService->handleEventPubdir50SearchReply(e);
-//			break;
+			break;
 
 		case GG_EVENT_PUBDIR50_READ:
 			m_protocol->CurrentPersonalInfoService->handleEventPubdir50Read(e);
 			m_protocol->CurrentContactPersonalInfoService->handleEventPubdir50Read(e);
-//			break;
+			break;
 
 		case GG_EVENT_PUBDIR50_WRITE:
 			m_protocol->CurrentPersonalInfoService->handleEventPubdir50Write(e);
