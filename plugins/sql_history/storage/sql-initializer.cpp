@@ -66,11 +66,9 @@ void SqlInitializer::setPathsProvider(PathsProvider *pathsProvider)
 
 void SqlInitializer::initialize()
 {
-	initDatabase();
-
-	bool ok = Database.isOpen() && !Database.isOpenError();
-	Database.close();
-
+	bool ok = initDatabase();
+	// remove database connection so it can be recreated in main thread
+	QSqlDatabase::removeDatabase("kadu-history");
 	emit databaseReady(ok);
 
 	deleteLater();
@@ -106,12 +104,12 @@ bool SqlInitializer::copyHistoryFile()
 	return false;
 }
 
-void SqlInitializer::initDatabase()
+bool SqlInitializer::initDatabase()
 {
 	if (QSqlDatabase::contains("kadu-history"))
 	{
-		if (Database.isOpen())
-			Database.close();
+		if (QSqlDatabase::database("kadu-history").isOpen())
+			QSqlDatabase::database("kadu-history").close();
 		QSqlDatabase::removeDatabase("kadu-history");
 	}
 
@@ -124,24 +122,24 @@ void SqlInitializer::initDatabase()
 		if (!copyHistoryFile())
 		{
 			emit progressFinished(false, "dialog-error", tr("Unable to copy history file to new location. Check if disk is full."));
-			return;
+			return false;
 		}
 	}
 
 	QString historyFilePath = m_pathsProvider->profilePath() + QStringLiteral(HISTORY_FILE_CURRENT);
 
-	Database = QSqlDatabase::addDatabase("QSQLITE", "kadu-history");
-	Database.setDatabaseName(historyFilePath);
+	QSqlDatabase database = QSqlDatabase::addDatabase("QSQLITE", "kadu-history");
+	database.setDatabaseName(historyFilePath);
 
-	if (!Database.open())
+	if (!database.open())
 	{
-		emit progressFinished(false, "dialog-error", tr("Unable to open database: %1").arg(Database.lastError().text()));
-		return;
+		emit progressFinished(false, "dialog-error", tr("Unable to open database: %1").arg(database.lastError().text()));
+		return false;
 	}
 
-	if (anyHistoryFileExists && SqlRestore::isCorrupted(Database)) // this is not new database
+	if (anyHistoryFileExists && SqlRestore::isCorrupted(database)) // this is not new database
 	{
-		Database.close();
+		database.close();
 
 		emit progressMessage("dialog-warning", tr("History file is corrupted, performing recovery..."));
 
@@ -152,29 +150,30 @@ void SqlInitializer::initDatabase()
 		else
 			emit progressMessage("dialog-error", tr("Recovery failed: %s").arg(SqlRestore::errorMessage(error)));
 
-		if (!Database.open())
+		if (!database.open())
 		{
-			emit progressFinished(false, "dialog-error", tr("Unable to open database: %1").arg(Database.lastError().text()));
-			return;
+			emit progressFinished(false, "dialog-error", tr("Unable to open database: %1").arg(database.lastError().text()));
+			return false;
 		}
 	}
 
-	if (SqlImport::importNeeded(Database))
+	if (SqlImport::importNeeded(database))
 	{
 		if (anyHistoryFileExists)
 			emit progressMessage("dialog-warning", tr("History file is outdated, performing import..."));
 
 		auto sqlImport = m_pluginInjectedFactory->makeUnique<SqlImport>();
-		sqlImport->performImport(Database);
+		sqlImport->performImport(database);
 
 		if (anyHistoryFileExists)
 			emit progressFinished(true, "dialog-information", tr("Import completed."));
 	}
 	else
 	{
-		m_configuration->deprecatedApi()->writeEntry("History", "Schema", SqlImport::databaseSchemaVersion(Database));
+		m_configuration->deprecatedApi()->writeEntry("History", "Schema", SqlImport::databaseSchemaVersion(database));
 		emit progressFinished(true, "dialog-information", tr("Copying completed."));
 	}
+	return true;
 }
 
 #include "moc_sql-initializer.cpp"

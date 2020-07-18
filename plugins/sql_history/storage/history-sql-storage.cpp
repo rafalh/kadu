@@ -237,7 +237,11 @@ void HistorySqlStorage::initializerProgressFinished(bool ok, const QString &icon
 void HistorySqlStorage::databaseReady(bool ok)
 {
 	if (ok)
-		Database = QSqlDatabase::database("kadu-history", true);
+	{
+		// Recreate database connection because it can be used only in the thread in which it was created
+		Database = QSqlDatabase::addDatabase("QSQLITE", "kadu-history");
+		Database.open();
+	}
 
 	if (!Database.isOpen() || Database.isOpenError())
 	{

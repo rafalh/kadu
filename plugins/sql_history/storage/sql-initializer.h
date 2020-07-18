@@ -40,14 +40,12 @@ class SqlInitializer : public QObject
 	QPointer<PluginInjectedFactory> m_pluginInjectedFactory;
 	QPointer<PathsProvider> m_pathsProvider;
 
-	QSqlDatabase Database;
-
 	bool oldHistoryFileExists();
 	bool currentHistoryFileExists();
 	bool copyHistoryFile();
 
 	void initDatabaseFile();
-	void initDatabase();
+	bool initDatabase();
 
 private slots:
 	INJEQT_SET void setConfiguration(Configuration *configuration);
